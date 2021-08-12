@@ -1,0 +1,42 @@
+SELECT * FROM trips;
+SELECT * FROM riders;
+SELECT * FROM cars;
+
+/*Trip Log with the trips and its users*/
+SELECT *
+FROM trips
+LEFT JOIN riders
+ ON trips.rider_id = riders.id;
+
+/*link between trips and cars used during trips*/
+ SELECT *
+ FROM trips
+ JOIN cars
+  ON trips.car_id = cars.id;
+
+/*Add new riders*/
+SELECT *
+FROM riders
+UNION
+SELECT * 
+FROM riders2;
+
+/*Average cost for a trip*/
+SELECT AVG(cost)
+FROM trips;
+
+/*Find riders that do not ride often*/
+SELECT *
+FROM riders
+WHERE total_trips < 500;
+
+/*Calculate number of cars that are active*/
+SELECT COUNT(*)
+FROM cars
+WHERE status = 'active';
+
+/*Find the cars with the highest trips completed*/
+SELECT *
+FROM cars
+ORDER BY trips_completed DESC
+LIMIT 2;
