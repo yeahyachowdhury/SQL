@@ -1,0 +1,41 @@
+ /*Top 5 stories with the highest scores*/
+ SELECT title, score
+ FROM hacker_news
+ ORDER BY score DESC
+ LIMIT 5;
+
+/*Is a small percentage of Hacker News submitters taking the majority of the points?*/
+ SELECT SUM(score)
+ FROM hacker_news;
+ SELECT user, SUM(score)
+ FROM hacker_news
+ GROUP BY user
+ HAVING SUM(score) > 200;
+ SELECT (309 + 304 + 282 + 517) / 6366.0 * 100.0;
+
+/*How many times has each offending user posted this link*/
+ SELECT user, COUNT(*)
+ FROM hacker_news
+ GROUP BY user
+ HAVING url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+ ORDER BY COUNT(*) DESC;
+
+/*Which of these sites feed Hacker News the most*/
+ SELECT COUNT(*),
+  CASE
+  WHEN url LIKE '%github.com%' THEN 'GitHub'
+  WHEn url LIKE '%medium.com%' THEN 'Medium'
+  WHEN url LIKE '%nytimes.com%' THEN 'New York Times'
+  ELSE 'Other'
+  END AS 'Source'
+FROM hacker_news
+GROUP BY Source;
+
+/*What’s the best time of the day to post a story*/
+SELECT strftime('%H', timestamp) AS 'Hour', 
+  ROUND(AVG (SCORE), 1) AS 'Avg Score', 
+  COUNT(*) AS '# Stories'
+FROM hacker_news
+WHERE strftime('%H', timestamp) IS NOT NULL
+GROUP BY strftime('%H', timestamp)
+ORDER BY ROUND(AVG (SCORE), 1) DESC;
